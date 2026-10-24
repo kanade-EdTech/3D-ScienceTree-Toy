@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bvg7qk8xpj3qg"]
+
+[ext_resource type="Script" path="res://scripts/tech_node.gd" id="1_tech_node"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 0.5
+height = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+radius = 0.6
+
+[node name="TechNode" type="Node3D"]
+script = ExtResource("1_tech_node")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_1")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+pixel_size = 0.008
+billboard = 1
+text = "Tech Node"
+font_size = 48
+outline_size = 8
+outline_modulate = Color(0, 0, 0, 1)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_1")

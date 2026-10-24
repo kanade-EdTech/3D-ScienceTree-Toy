@@ -1,0 +1,21 @@
+# Godot 4 generated cache and imported CSV translations
+.godot/
+*.translation
+
+# Export output (export_presets.cfg currently targets build/web/)
+/build/
+
+# Local export credentials
+export_credentials.cfg
+
+# Temporary files and logs
+*.tmp
+*.log
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Keep project.godot, export_presets.cfg, *.uid, *.import,
+# scenes, scripts, assets, tests, and addons in version control.

@@ -1,0 +1,132 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl5vx3rbrlxje"]
+
+[ext_resource type="Script" path="res://scripts/tech_tree_manager.gd" id="1_manager"]
+[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_camera"]
+[ext_resource type="Script" path="res://scripts/tooltip_ui.gd" id="3_tooltip"]
+
+[node name="Main" type="Node3D"]
+
+[node name="TechTreeManager" type="Node3D" parent="."]
+script = ExtResource("1_manager")
+
+[node name="UILayer" type="CanvasLayer" parent="TechTreeManager"]
+
+[node name="Control" type="Control" parent="TechTreeManager/UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TechTreeManager/UILayer/Control"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 240.0
+offset_bottom = 100.0
+grow_horizontal = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TechTreeManager/UILayer/Control/VBoxContainer"]
+mouse_filter = 2
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TechTreeManager/UILayer/Control/VBoxContainer/PanelContainer"]
+mouse_filter = 2
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="InfoVBox" type="VBoxContainer" parent="TechTreeManager/UILayer/Control/VBoxContainer/PanelContainer/MarginContainer"]
+mouse_filter = 2
+layout_mode = 2
+
+[node name="PointsLabel" type="Label" parent="TechTreeManager/UILayer/Control/VBoxContainer/PanelContainer/MarginContainer/InfoVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "科技点: 0"
+
+[node name="SpeedLabel" type="Label" parent="TechTreeManager/UILayer/Control/VBoxContainer/PanelContainer/MarginContainer/InfoVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "速度: 1x"
+
+[node name="UnlockedLabel" type="Label" parent="TechTreeManager/UILayer/Control/VBoxContainer/PanelContainer/MarginContainer/InfoVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "已解锁: 0 / 32"
+
+[node name="LayoutLabel" type="Label" parent="TechTreeManager/UILayer/Control/VBoxContainer/PanelContainer/MarginContainer/InfoVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "发展方向: 从上到下"
+
+[node name="HelpLabel" type="Label" parent="TechTreeManager/UILayer/Control"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -30.0
+offset_right = 1270.0
+offset_bottom = -10.0
+theme_override_font_sizes/font_size = 16
+text = "上→下：左右拖翻滚/上下拖平移 | 左→右：上下拖翻滚/左右拖平移 | 滚轮缩放 | PageDown切换方向"
+
+[node name="TooltipUI" type="Control" parent="TechTreeManager/UILayer"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("3_tooltip")
+
+[node name="TooltipPanel" type="PanelContainer" parent="TechTreeManager/UILayer/TooltipUI"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 150.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TechTreeManager/UILayer/TooltipUI/TooltipPanel"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="NameLabel" type="Label" parent="TechTreeManager/UILayer/TooltipUI/TooltipPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "科技名称"
+
+[node name="CostLabel" type="Label" parent="TechTreeManager/UILayer/TooltipUI/TooltipPanel/VBoxContainer"]
+layout_mode = 2
+text = "消耗: 5 科技点"
+
+[node name="StatusLabel" type="Label" parent="TechTreeManager/UILayer/TooltipUI/TooltipPanel/VBoxContainer"]
+layout_mode = 2
+text = "状态: 锁定"
+
+[node name="PrereqLabel" type="Label" parent="TechTreeManager/UILayer/TooltipUI/TooltipPanel/VBoxContainer"]
+layout_mode = 2
+text = "需要前置科技: 2 个"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 20)
+current = true
+script = ExtResource("2_camera")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5, 10, 5)
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, -5, 10, -5)
+light_energy = 0.5
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+light_energy = 0.3
+omni_range = 50.0
+
+
