@@ -2,6 +2,8 @@
 
 使用Godot 4.7引擎开发的3D科技树可视化游戏，展示人类近代科学发展历程。
 
+许可：代码 **MIT**，文档、科技树数据与原创素材 **CC BY 4.0**。详见[授权范围](LICENSES.md)。
+
 ## 🎮 快速开始
 
 1. 安装 [Godot 4.7+](https://godotengine.org/download/)
@@ -118,4 +120,12 @@
 ---
 
 **版本**: 1.3.0 | **更新**: 2026年10月
+
+## 许可协议
+
+- **代码、场景与工程配置**：[MIT](LICENSE)。
+- **文档、科技树数据与原创素材**：[CC BY 4.0](LICENSE-CC-BY-4.0.txt)。
+- **第三方内容**：沿用原有授权与署名，包括 `addons/godot_mcp/` 插件。
+
+作者署名：**kanade-EdTech**。完整适用范围、来源及署名示例见 [LICENSES.md](LICENSES.md)。
 
