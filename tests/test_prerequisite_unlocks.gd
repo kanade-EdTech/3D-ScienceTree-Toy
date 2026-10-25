@@ -35,9 +35,9 @@ func create_game():
 	var geometry_ready = true
 	for node in manager.tech_nodes.values():
 		if desired_layout == manager.LayoutMode.VERTICAL:
-			if absf(node.position.y + node.tier * manager.VERTICAL_TIER_SPACING) > 1.51:
+			if absf(node.position.y + node.tier * manager.VERTICAL_TIER_SPACING) > 4.01:
 				geometry_ready = false
-		elif not is_equal_approx(node.position.x, node.tier * manager.TIER_SPACING):
+		elif absf(node.position.x - node.tier * manager.TIER_SPACING) > 2.51:
 			geometry_ready = false
 	check(geometry_ready, "Prerequisite test requires actual requested geometry")
 	if not geometry_ready:

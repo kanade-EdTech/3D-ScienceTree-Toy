@@ -1,5 +1,5 @@
 extends SceneTree
-## 1.3.0: 30-degree views and content-following grab translation.
+## 2.0.0: 30-degree views and content-following grab translation.
 
 var checks = 0
 var failures: Array[String] = []
@@ -150,7 +150,7 @@ func run_tests() -> void:
 	await create_timer(0.95).timeout
 	check(valid_view(camera), "View remains valid after direction animation")
 	check(manager.unlocked_count == 0, "Navigation does not purchase nodes")
-	print("1.3.0 fixed-axis tests: ", checks, " checks; ", failures.size(), " failures")
+	print("2.0.0 fixed-axis tests: ", checks, " checks; ", failures.size(), " failures")
 	game.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)

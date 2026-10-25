@@ -45,8 +45,8 @@ func disconnected_lines(manager) -> int:
 func disc_position_matches(node, manager) -> bool:
 	var radius = manager.TIER_RADIUS_BASE + node.tier * 2.0
 	if manager.current_layout == manager.LayoutMode.HORIZONTAL:
-		return is_equal_approx(node.position.x, node.tier * manager.TIER_SPACING) and absf(Vector2(node.position.y, node.position.z).length() - radius) <= 1.51
-	return absf(node.position.y + node.tier * manager.VERTICAL_TIER_SPACING) <= 1.51 and is_equal_approx(Vector2(node.position.x, node.position.z).length(), radius)
+		return absf(node.position.x - node.tier * manager.TIER_SPACING) <= 2.51 and absf(Vector2(node.position.y, node.position.z).length() - radius) <= 4.31
+	return absf(node.position.y + node.tier * manager.VERTICAL_TIER_SPACING) <= 4.01 and absf(Vector2(node.position.x, node.position.z).length() - radius) <= 2.81
 
 func positions_match(manager) -> bool:
 	for node in manager.tech_nodes.values():

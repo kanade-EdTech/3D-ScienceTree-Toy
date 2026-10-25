@@ -2,15 +2,26 @@
 .godot/
 *.translation
 
-# Export output (export_presets.cfg currently targets build/web/)
+# Export output
 /build/
+/dist/
+/tools/.font-build-deps/
+/tools/font-source/
+/tools/export_templates/
+/tools/toy-cli/
+/output/
+/.playwright-cli/
+/video/
 
 # Local export credentials
 export_credentials.cfg
 
-# Temporary files and logs
+# Temporary files, logs, and local recordings
 *.tmp
 *.log
+*.mp4
+*.mp3
+*.srt
 
 # Operating system metadata
 .DS_Store

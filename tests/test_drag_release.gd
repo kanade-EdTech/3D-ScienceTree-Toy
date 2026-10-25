@@ -1,5 +1,5 @@
 extends SceneTree
-## 1.3.0 fixed-axis gestures, release-only purchase, and interruption behavior.
+## 2.0.0 fixed-axis gestures, release-only purchase, and interruption behavior.
 
 var checks = 0
 var failures: Array[String] = []
@@ -41,8 +41,8 @@ func run_tests() -> void:
 	var manager = scene.get_node("TechTreeManager")
 	var camera = scene.get_node("Camera3D")
 	manager.points_per_second = 0.0
-	check(ProjectSettings.get_setting("application/config/version", "") == "1.3.0", "Project version is 1.3.0")
-	check(manager.current_layout == manager.LayoutMode.VERTICAL and camera.current_layout == camera.LayoutMode.VERTICAL, "1.3.0 starts top-to-bottom")
+	check(ProjectSettings.get_setting("application/config/version", "") == "2.0.0", "Project version is 2.0.0")
+	check(manager.current_layout == manager.LayoutMode.VERTICAL and camera.current_layout == camera.LayoutMode.VERTICAL, "2.0.0 starts top-to-bottom")
 	var expected_axis = Vector3(0, -manager.VERTICAL_TIER_SPACING * 2.0, 0)
 	print("Startup axis=", camera.axis_center, "; expected=", expected_axis)
 	check(camera.axis_center.is_equal_approx(expected_axis), "Startup camera must initialize the tree's fixed axis center")
@@ -147,7 +147,7 @@ func run_tests() -> void:
 		motion(Vector2(600, 600))
 		button(Vector2(600, 600), false)
 	check(camera.global_position.is_finite() and is_zero_approx(camera.rotation_angle), "Opposite horizontal drags restore rotation")
-	print("1.3.0 drag tests: ", checks, " checks; ", failures.size(), " failures")
+	print("2.0.0 drag tests: ", checks, " checks; ", failures.size(), " failures")
 	await create_timer(0.7).timeout
 	scene.queue_free()
 	await process_frame

@@ -63,7 +63,7 @@ func run_tests() -> void:
 		drag(Vector2(3, 3), 20)
 		check(camera.global_transform.is_equal_approx(before), "Sub-threshold jitter does not move layout " + str(layout))
 	check(manager.unlocked_count == 0, "Sampling tests do not purchase nodes")
-	print("1.3.0 drag sampling tests: ", checks, " checks; ", failures.size(), " failures")
+	print("2.0.0 drag sampling tests: ", checks, " checks; ", failures.size(), " failures")
 	game.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090d16">
+  <title>$GODOT_PROJECT_NAME</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width:100%; height:100%; margin:0; overflow:hidden; background:#090d16; color:#fff; font-family:system-ui,sans-serif; }
+    #canvas { display:block; width:100%; height:100%; touch-action:none; outline:none; }
+    #status { position:fixed; inset:0; z-index:3; display:grid; place-content:center; gap:16px; text-align:center; background:#090d16; padding:24px; }
+    #status[hidden] { display:none; }
+    #status h1 { font-size:24px; margin:0; }
+    #notice { max-width:38em; white-space:pre-wrap; line-height:1.7; color:#cbd5e1; }
+    progress { width:min(320px,80vw); height:10px; accent-color:#52c7b8; }
+    #controls { position:fixed; z-index:2; top:max(8px,env(safe-area-inset-top)); right:max(8px,env(safe-area-inset-right)); display:flex; gap:5px; padding:5px; border:1px solid #334155; border-radius:10px; background:#111827e8; }
+    #controls[hidden] { display:none; }
+    button { min-height:38px; padding:6px 11px; border:0; border-radius:6px; background:#28364b; color:#fff; font-size:14px; cursor:pointer; touch-action:manipulation; }
+    button:hover { background:#3d536e; }
+    button:focus-visible { outline:2px solid #52c7b8; outline-offset:2px; }
+    @media (max-width:680px) {
+      #controls { top:auto; bottom:max(8px,env(safe-area-inset-bottom)); right:8px; left:8px; justify-content:center; }
+      button { flex:1; min-height:42px; padding:6px; }
+    }
+  </style>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="3D 科技树；拖动浏览，点击节点解锁"></canvas>
+  <div id="status" role="status">
+    <h1>3D 科技树</h1>
+    <div id="notice">正在加载科技树…</div>
+    <progress id="progress"></progress>
+  </div>
+  <nav id="controls" aria-label="浏览操作" hidden>
+    <button type="button" data-key="PageDown" title="切换发展方向（PageDown）">切换方向</button>
+    <button type="button" data-key="PageUp" title="切换科技点增长速度（PageUp）">速度</button>
+    <button type="button" data-zoom="-100" title="拉近视图">放大</button>
+    <button type="button" data-zoom="100" title="推远视图">缩小</button>
+    <button type="button" id="fullscreen">全屏</button>
+  </nav>
+  <noscript>请启用 JavaScript 后打开科技树。</noscript>
+  <script src="$GODOT_URL"></script>
+  <script>
+    const GODOT_CONFIG = $GODOT_CONFIG;
+    const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+    const engine = new Engine(GODOT_CONFIG);
+    const canvas = document.getElementById('canvas');
+    const status = document.getElementById('status');
+    const notice = document.getElementById('notice');
+    const progress = document.getElementById('progress');
+    const controls = document.getElementById('controls');
+    function fail(error) {
+      console.error(error);
+      notice.textContent = '加载失败，请刷新重试。请使用支持 WebGL 2 的新版浏览器。';
+      progress.hidden = true;
+      status.hidden = false;
+      document.documentElement.dataset.gameReady = 'error';
+    }
+    const missing = Engine.getMissingFeatures({threads:GODOT_THREADS_ENABLED});
+    if (missing.length) {
+      fail(new Error(missing.join(', ')));
+    } else {
+      engine.startGame({onProgress(current,total) {
+        if (total > 0) { progress.max=total; progress.value=current; }
+      }}).then(() => {
+        status.hidden = true;
+        controls.hidden = false;
+        document.documentElement.dataset.gameReady = 'true';
+        canvas.focus({preventScroll:true});
+      }).catch(fail);
+    }
+    controls.addEventListener('click', async event => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      if (button.dataset.key) {
+        const key = button.dataset.key;
+        const keyCode = key === 'PageDown' ? 34 : 33;
+        for (const type of ['keydown','keyup']) canvas.dispatchEvent(new KeyboardEvent(type,{key,code:key,keyCode,which:keyCode,bubbles:true,cancelable:true}));
+      } else if (button.dataset.zoom) {
+        const rect = canvas.getBoundingClientRect();
+        canvas.dispatchEvent(new WheelEvent('wheel',{deltaY:Number(button.dataset.zoom),clientX:rect.left+rect.width/2,clientY:rect.top+rect.height/2,bubbles:true,cancelable:true}));
+      } else if (button.id === 'fullscreen') {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+        } catch (_) { button.textContent = '全屏不可用'; }
+      }
+      canvas.focus({preventScroll:true});
+    });
+  </script>
+</body>
+</html>

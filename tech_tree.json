@@ -1,8 +1,11 @@
 {
   "metadata": {
     "title": "人类近代科学交叉科技树 (DAG)",
-    "version": "1.0.0",
-    "description": "以天文、测量、炼金、解剖四大经验源头为起点的近代细分学科有向无环交叉网络（适配 D3.js / 3d-force-graph / Three.js 渲染）",
+    "version": "2.0.0",
+    "author": "kanade-EdTech",
+    "license": "CC BY 4.0",
+    "repository": "https://github.com/kanade-EdTech/3D-ScienceTree-Toy",
+    "description": "以天文、测量、炼金、解剖四大经验源头为起点的近代细分学科有向无环交叉网络（适配 Godot / D3.js / 3d-force-graph / Three.js 渲染）",
     "schema": "nodes + links (Directed Acyclic Graph)"
   },
   "eras": [

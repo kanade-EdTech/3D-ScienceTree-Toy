@@ -8,6 +8,7 @@ class_name TechTreeManager
 var tech_data: Dictionary = {}
 var tech_nodes: Dictionary = {}
 var tech_links: Array = []
+var layout_adjustments: Dictionary = {}
 
 @onready var ui_layer: CanvasLayer = $UILayer
 @onready var points_label: Label = $UILayer/Control/VBoxContainer/PanelContainer/MarginContainer/InfoVBox/PointsLabel
@@ -42,6 +43,10 @@ func _process(delta):
 	update_ui()
 
 func load_tech_data():
+	# 固定的小幅点位修正，避免重启时随机高度重新引入穿点连线。
+	var layout_data = JSON.parse_string(FileAccess.get_file_as_string("res://tech_layout.json"))
+	if layout_data is Dictionary:
+		layout_adjustments = layout_data
 	var file = FileAccess.open("res://tech_tree.json", FileAccess.READ)
 	if file:
 		var json_string = file.get_as_text()
@@ -85,6 +90,13 @@ func calculate_disc_position(tier: int, index: int, total_in_tier: int, layout: 
 			-tier * VERTICAL_TIER_SPACING + y_variation,  # Y轴：向下堆叠
 			z_offset                               # Z轴：圆盘深度
 		)
+
+func adjusted_disc_position(node: TechNode, index: int, count: int, layout: LayoutMode) -> Vector3:
+	var base = calculate_disc_position(node.tier, index, count, layout, float(node.get_meta("disc_height_variation", 0.0)))
+	var settings: Dictionary = layout_adjustments.get(node.tech_id, {})
+	var direction = "vertical" if layout == LayoutMode.VERTICAL else "horizontal"
+	var offset: Array = settings.get(direction, [0.0, 0.0, 0.0])
+	return base + Vector3(float(offset[0]), float(offset[1]), float(offset[2]))
 
 func create_tech_tree():
 	if not tech_data.has("nodes"):
@@ -155,8 +167,9 @@ func create_tech_node(node_data: Dictionary, domain_colors: Dictionary, tier_cou
 	var index = tier_indices[tier]
 
 	var height_variation = randf_range(-1.5, 1.5)
+	height_variation = float(layout_adjustments.get(node_data.id, {}).get("height_variation", height_variation))
 	tech_node.set_meta("disc_height_variation", height_variation)
-	tech_node.position = calculate_disc_position(tier, index, tier_count, current_layout, height_variation)
+	tech_node.position = adjusted_disc_position(tech_node, index, tier_count, current_layout)
 
 	# Connect signals
 	tech_node.node_clicked.connect(_on_tech_node_clicked)
@@ -343,9 +356,8 @@ func rebuild_layout():
 		var index = tier_indices[tier]
 
 		# Calculate new position in disc layout
-		var height_variation = float(node.get_meta("disc_height_variation", 0.0))
 		starting_positions[node_id] = node.position
-		target_positions[node_id] = calculate_disc_position(tier, index, tier_count, current_layout, height_variation)
+		target_positions[node_id] = adjusted_disc_position(node, index, tier_count, current_layout)
 
 		tier_indices[tier] += 1
 

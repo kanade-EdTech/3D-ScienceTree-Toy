@@ -1,8 +1,11 @@
 {
   "metadata": {
     "title": "Cross-Disciplinary Technology Tree of Modern Science (DAG)",
-    "version": "1.0.0",
-    "description": "A Directed Acyclic Graph (DAG) cross-disciplinary network of modern scientific sub-disciplines originating from four empirical precursors: Astronomy, Surveying, Alchemy, and Anatomy (adapted for D3.js / 3d-force-graph / Three.js rendering)",
+    "version": "2.0.0",
+    "author": "kanade-EdTech",
+    "license": "CC BY 4.0",
+    "repository": "https://github.com/kanade-EdTech/3D-ScienceTree-Toy",
+    "description": "A Directed Acyclic Graph (DAG) cross-disciplinary network of modern scientific sub-disciplines originating from four empirical precursors: Astronomy, Surveying, Alchemy, and Anatomy (adapted for Godot / D3.js / 3d-force-graph / Three.js rendering)",
     "schema": "nodes + links (Directed Acyclic Graph)"
   },
   "eras": [
